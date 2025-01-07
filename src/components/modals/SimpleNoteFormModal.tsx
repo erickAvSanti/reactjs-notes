@@ -6,11 +6,11 @@ import { FnCallback } from "../../types";
 export default function SimpleNoteFormModal({
   success,
   isOpen,
-  closeModal,
+  onClose: closeModal,
 }: {
   success: (note: Note | null) => void;
   isOpen: boolean;
-  closeModal: FnCallback;
+  onClose: FnCallback;
 }) {
   const addNote = (note: Note | null) => {
     success(note);

@@ -27,11 +27,11 @@ function App() {
       <SimpleNoteFormModal
         success={addNote}
         isOpen={showSimpleNoteModal}
-        closeModal={() => setShowSimpleNoteModal(false)}
+        onClose={() => setShowSimpleNoteModal(false)}
       ></SimpleNoteFormModal>
       <DefaultModal
         isOpen={showListNoteModal}
-        closeModal={() => setShowListNoteModal(false)}
+        onClose={() => setShowListNoteModal(false)}
       >
         <div>List Note Modal</div>
       </DefaultModal>
