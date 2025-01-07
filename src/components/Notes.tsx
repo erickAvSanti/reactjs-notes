@@ -1,11 +1,12 @@
 import { Note } from "../constants/note.constants";
+import NoteElement from "./NoteElement";
 
 export default function Notes({ notes }: { notes: Note[] }) {
   return (
-    <ul>
+    <div className="flex flex-row flex-wrap gap-2 px-2 max-w-full">
       {notes.map((note: Note) => {
-        return <li key={note.id}>{note.title}</li>;
+        return <NoteElement key={note.id} note={note}></NoteElement>;
       })}
-    </ul>
+    </div>
   );
 }
