@@ -17,7 +17,7 @@ export default function SimpleNoteFormModal({
     closeModal();
   };
   return (
-    <DefaultModal isOpen={isOpen} closeModal={closeModal}>
+    <DefaultModal isOpen={isOpen} closeModal={closeModal} modalTitle="Add simple note">
       <SimpleNoteForm success={addNote} cancel={closeModal}></SimpleNoteForm>
     </DefaultModal>
   );
