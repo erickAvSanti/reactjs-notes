@@ -5,26 +5,26 @@ import { setFocusableTrapElements } from "../../helpers/modal.helper";
 
 type ModalProps = {
   isOpen: boolean;
-  closeModal: FnCallback;
+  onClose: FnCallback;
   children: React.ReactNode;
-  modalTitle?: string;
+  title?: string;
 };
 
 export default function DefaultModal({
-  isOpen,
-  closeModal,
+  isOpen: isModalOpen,
+  onClose: closeModal,
   children,
-  modalTitle,
+  title,
 }: ModalProps) {
   const modalRoot = document.getElementById("modal-root");
   const backdropRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef(null);
   useEffect(() => {
-    if (!isOpen || !closeBtnRef.current) return;
+    if (!isModalOpen || !closeBtnRef.current) return;
     const closeBtn = closeBtnRef.current as HTMLDivElement;
     closeBtn.focus();
-  }, [isOpen]);
+  }, [isModalOpen]);
   useEffect(() => {
     const onKeyEscPressed = (evt: KeyboardEvent) => {
       if (evt.key === "Escape") {
@@ -33,14 +33,14 @@ export default function DefaultModal({
         setFocusableTrapElements(modalRef.current, evt);
       }
     };
-    if (isOpen) {
+    if (isModalOpen) {
       window.addEventListener("keydown", onKeyEscPressed);
     }
     return () => {
       window.removeEventListener("keydown", onKeyEscPressed);
     };
-  }, [isOpen, closeModal]);
-  if (!isOpen) return null;
+  }, [isModalOpen, closeModal]);
+  if (!isModalOpen) return null;
   const closeBackdrop = (event: SyntheticEvent) => {
     console.log(event);
     if (event.target != null && event.target === backdropRef?.current) {
@@ -61,7 +61,7 @@ export default function DefaultModal({
           ref={modalRef}
         >
           <div className="flex flex-row items-center gap-2 w-full justify-between">
-            <span className="">{modalTitle ?? "Modal"}</span>
+            <span className="">{title ?? "Modal"}</span>
             <button
               className="py-1 px-2"
               onClick={closeModal}
