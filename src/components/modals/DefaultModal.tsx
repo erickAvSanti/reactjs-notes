@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FnCallback } from "../../types";
+import { setFocusableTrapElements } from "../../helpers/modal.helper";
 
 type ModalProps = {
   isOpen: boolean;
@@ -17,16 +18,20 @@ export default function DefaultModal({
 }: ModalProps) {
   const modalRoot = document.getElementById("modal-root");
   const backdropRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef(null);
   useEffect(() => {
     if (!isOpen || !closeBtnRef.current) return;
-    const el = closeBtnRef.current as HTMLDivElement;
-    el.focus();
+    const closeBtn = closeBtnRef.current as HTMLDivElement;
+    closeBtn.focus();
   }, [isOpen]);
   useEffect(() => {
     const onKeyEscPressed = (evt: KeyboardEvent) => {
-      if (evt.key !== "Escape") return;
-      closeModal();
+      if (evt.key === "Escape") {
+        closeModal();
+      } else if (evt.key === "Tab" && modalRef.current != null) {
+        setFocusableTrapElements(modalRef.current, evt);
+      }
     };
     if (isOpen) {
       window.addEventListener("keydown", onKeyEscPressed);
@@ -39,7 +44,7 @@ export default function DefaultModal({
   const closeBackdrop = (event: SyntheticEvent) => {
     console.log(event);
     if (event.target != null && event.target === backdropRef?.current) {
-      closeModal(null as never);
+      closeModal();
     }
   };
   const modal = (
@@ -52,6 +57,7 @@ export default function DefaultModal({
         className="flex flex-col items-center justify-center gap-2 bg-white dark:bg-gray-700 rounded-2xl p-3 min-w-[350px] shadow-2xl"
         aria-modal="true"
         role="dialog"
+        ref={modalRef}
       >
         <div className="flex flex-row items-center gap-2 w-full justify-between">
           <span className="">{modalTitle ?? "Modal"}</span>
@@ -60,6 +66,7 @@ export default function DefaultModal({
             onClick={closeModal}
             tabIndex={0}
             ref={closeBtnRef}
+            aria-label="Close modal"
           >
             X
           </button>
