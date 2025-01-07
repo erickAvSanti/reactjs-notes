@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./App.css";
 import SelectNoteType from "./components/SelectNoteType";
 import DefaultModal from "./components/modals/DefaultModal";
-import SimpleNoteForm from "./components/SimpleNoteForm";
 import { Note } from "./constants/note.constants";
 import Notes from "./components/Notes";
+import SimpleNoteFormModal from "./components/modals/SimpleNoteFormModal";
 
 function App() {
   const [showSimpleNoteModal, setShowSimpleNoteModal] =
@@ -24,15 +24,11 @@ function App() {
         ></SelectNoteType>
         <Notes notes={notes}></Notes>
       </div>
-      <DefaultModal
+      <SimpleNoteFormModal
+        success={addNote}
         isOpen={showSimpleNoteModal}
         closeModal={() => setShowSimpleNoteModal(false)}
-      >
-        <SimpleNoteForm
-          success={addNote}
-          cancel={() => setShowSimpleNoteModal(false)}
-        ></SimpleNoteForm>
-      </DefaultModal>
+      ></SimpleNoteFormModal>
       <DefaultModal
         isOpen={showListNoteModal}
         closeModal={() => setShowListNoteModal(false)}

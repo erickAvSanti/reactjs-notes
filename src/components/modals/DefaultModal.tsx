@@ -1,5 +1,6 @@
 import { SyntheticEvent, useRef } from "react";
 import { createPortal } from "react-dom";
+import { FnCallback } from "../../types";
 
 export default function DefaultModal({
   isOpen,
@@ -8,7 +9,7 @@ export default function DefaultModal({
   modalTitle,
 }: {
   isOpen: boolean;
-  closeModal: () => unknown;
+  closeModal: FnCallback;
   children: React.ReactNode;
   modalTitle?: string;
 }) {
@@ -18,7 +19,7 @@ export default function DefaultModal({
   const closeBackdrop = (event: SyntheticEvent) => {
     console.log(event);
     if (event.target != null && event.target === backdropRef?.current) {
-      closeModal();
+      closeModal(null as never);
     }
   };
   const modal = (
